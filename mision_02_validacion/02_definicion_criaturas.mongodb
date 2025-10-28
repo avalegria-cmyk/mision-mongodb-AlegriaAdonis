@@ -1,0 +1,68 @@
+// Creamos la colección con validaciones
+use('bestiario')
+db.createCollection("criaturas", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: [
+        "nombre",
+        "habitat",
+        "nivel_peligro",
+        "es_legendaria",
+        "habilidades",
+        "ficha_veterinaria",
+        "id_guardian"
+      ],
+      properties: {
+        nombre: {
+          bsonType: "string",
+          description: "Nombre de la criatura. Ej: 'Dracolobo'."
+        },
+        habitat: {
+          bsonType: "string",
+          description: "Lugar donde vive. Ej: 'Pantano', 'Bosque nevado'."
+        },
+        nivel_peligro: {
+          bsonType: "int",
+          minimum: 1,
+          maximum: 10,
+          description: "Nivel de amenaza (1-10)."
+        },
+        es_legendaria: {
+          bsonType: "bool",
+          description: "true si es criatura única/mítica, false si es común."
+        },
+        habilidades: {
+          bsonType: "array",
+          minItems: 1,
+          uniqueItems: true,
+          items: {
+            bsonType: "string",
+            description: "Cada habilidad debe ser texto."
+          },
+          description: "Lista de habilidades únicas. No se permite lista vacía."
+        },
+        ficha_veterinaria: {
+          bsonType: "object",
+          required: ["salud", "ultima_revision"],
+          properties: {
+            salud: {
+              bsonType: "string",
+              enum: ["Óptima", "Regular", "Crítica"],
+              description: "Estado actual de salud."
+            },
+            ultima_revision: {
+              bsonType: "date",
+              description: "Última fecha en la que fue revisada por el personal médico."
+            }
+          },
+          description: "Información médica 1-a-1 embebida."
+        },
+        id_guardian: {
+          bsonType: "objectId",
+          description: "Referencia al guardián responsable (relación 1-a-muchos)."
+        }
+      }
+    }
+  }
+})

@@ -45,7 +45,6 @@ db.criaturas.insertMany([
   }
 ])
 
-
 // Funciones del CRUD
 
 // Mostrar

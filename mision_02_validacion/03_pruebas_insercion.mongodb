@@ -1,0 +1,72 @@
+use('bestiario')
+
+/*GUARDIAN VALIDO*/
+
+const resGuardiánOK = db.guardianes.insertOne({
+  nombre: "Aldren Stormwatch",
+  rango: "Maestro",
+  password_acceso: "ClaveFuerte9",
+  nivel: 7,
+  inventario: [
+    { nombre_item: "Poción curativa", cantidad: 3 },
+    { nombre_item: "Grimorio antiguo", cantidad: 1 }
+  ]
+
+})
+const guardianIdValido = resGuardiánOK.insertedId
+
+
+/*GUARDIAN INVALIDO*/
+// Guardián inválido (password débil y rango no permitido)
+/*
+db.guardianes.insertOne({
+  nombre: "Lira Moonveil",
+  rango: "Dios Supremo", // no está en ["Aprendiz", "Maestro", "Gran Maestro"]
+  password_acceso: "abc123", // muy corta, sin mayúscula
+  nivel: 10,
+  inventario: [
+    { nombre_item: "Daga rúnica", cantidad: 1 }
+  ]
+})
+*/
+
+//MENSAJE DE ERROR ES EL SIGUIENTE Document failed validation
+
+//CRIATURA VALIDA
+
+db.criaturas.insertOne({
+  nombre: "Dracolobo Carmesí",
+  habitat: "Bosque de Ceniza",
+  nivel_peligro: 9,
+  es_legendaria: true,
+  habilidades: ["Llama negra", "Aullido psíquico"],
+  ficha_veterinaria: {
+    salud: "Óptima",
+    ultima_revision: new Date("2025-10-20")
+  },
+  id_guardian: guardianIdValido
+})
+
+
+//CRIATURA INVALIDA
+/*
+db.criaturas.insertOne({
+  nombre: "Rata Mutante de Pantano",
+  habitat: "Alcantarillas antiguas",
+  nivel_peligro: 2,
+  es_legendaria: false,
+  habilidades: [],
+  ficha_veterinaria: {
+
+    ultima_revision: new Date("2025-10-19")
+  },
+  id_guardian: "69000222a200dfac4c24dd2a"
+})
+*/
+
+/*PARA PODER INGRESAR UNA CRIATURA CON EL ID ENLAZADO DE UN GUARDIAN TENEMOS 2 OPCIONES
+ 1.- Tomamos la varible para saber el id del guardian
+ 2.- Buscamos el id en la BDD y lo agregamos de manera manual
+*/
+
+

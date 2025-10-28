@@ -1,0 +1,4 @@
+// Eliminamos la colección anterior si ya existe
+use('bestiario')
+db.criaturas.drop();
+db.guardianes.drop();

@@ -1,0 +1,7 @@
+use('bestiario')
+//MOSTRAR GUARDIANES REGISTRADOS
+db.guardianes.find()
+
+//MOSTRAR CRIATURAS REGISTRADAS
+db.criaturas.find()
+// NOTA: Esta comentada para una mejor vista, comente una o descomente la otra

@@ -1,0 +1,53 @@
+// MISIÓN 2 - VALIDACIÓN DE DATOS (CRIATURAS)
+use('bestiario')
+// Creamos la colección con su esquema de validación
+db.createCollection("guardianes", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["nombre", "rango", "password_acceso", "inventario"],
+      properties: {
+        nombre: {
+          bsonType: "string",
+          description: "El nombre del guardián. Debe ser texto."
+        },
+        rango: {
+          bsonType: "string",
+          enum: ["Aprendiz", "Maestro", "Gran Maestro"],
+          description: "Nivel jerárquico del guardián. Solo se permite uno de estos valores."
+        },
+        password_acceso: {
+          bsonType: "string",
+          pattern: "^(?=.*[A-Z])(?=.*[0-9]).{8,}$",
+          description: "Password mínimo 8 caracteres, con al menos 1 mayúscula y 1 número."
+        },
+        nivel: {
+          bsonType: "int",
+          minimum: 1,
+          maximum: 99,
+          description: "Nivel de poder del guardián (1-99)."
+        },
+        inventario: {
+          bsonType: "array",
+          minItems: 1,
+          items: {
+            bsonType: "object",
+            required: ["nombre_item", "cantidad"],
+            properties: {
+              nombre_item: {
+                bsonType: "string",
+                description: "Nombre del ítem. Ej: 'Poción curativa'."
+              },
+              cantidad: {
+                bsonType: "int",
+                minimum: 1,
+                description: "Debe ser al menos 1."
+              }
+            }
+          },
+          description: "Lista de objetos que posee el guardián."
+        }
+      }
+    }
+  }
+})
